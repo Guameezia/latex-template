@@ -1,0 +1,8 @@
+# Build output
+output/
+
+# OS / editor
+.DS_Store
+.vscode/.browse.VC.db*
+.vscode/ipch/
+

@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+
+% --- Page and typography ---
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+% --- XeLaTeX + Unicode + CJK (Chinese-capable, no Chinese content by default) ---
+\usepackage{fontspec}
+\usepackage{xeCJK}
+% If you plan to write Chinese, uncomment and choose an installed font:
+% \setCJKmainfont{PingFang SC}
+
+% --- Math ---
+\usepackage{amsmath,amssymb,mathtools}
+
+% --- Graphics and tables ---
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% --- Code blocks ---
+\usepackage{listings}
+\usepackage{xcolor}
+\lstdefinestyle{base}{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  breaklines=true,
+  frame=single,
+  framerule=0.2pt,
+  rulecolor=\color{black!20},
+  backgroundcolor=\color{black!2},
+  showstringspaces=false
+}
+\lstset{style=base}
+
+% --- Links, PDF metadata ---
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  urlcolor=blue!55!black,
+  citecolor=blue!55!black,
+  pdftitle={Document Title},
+  pdfauthor={Author Name}
+}
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
+
+% --- Lists and paragraphs ---
+\usepackage{enumitem}
+\setlist{nosep}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% --- Theorem-like environments (useful for notes/papers) ---
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% --- Bibliography (biblatex) ---
+\usepackage[backend=biber,style=authoryear,maxcitenames=2]{biblatex}
+\addbibresource{references.bib}
+
+\title{Document Title}
+\author{Author Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Write a short abstract here.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Paper skeleton}
+
+\subsection{Introduction}
+Start writing here.
+
+\subsection{Related work}
+Cite an example article~\parencite{knuth1984literate}.
+
+\subsection{Method}
+
+\begin{definition}
+A definition environment you can reuse for notes.
+\end{definition}
+
+\begin{theorem}
+A theorem statement.
+\end{theorem}
+
+\begin{proof}
+A proof.
+\end{proof}
+
+\subsection{Results}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+Item & Value & Notes \\
+\midrule
+A & 1 & Example \\
+B & 2 & Example \\
+\bottomrule
+\end{tabular}
+\caption{Example table.}
+\label{tab:example}
+\end{table}
+
+\begin{figure}[h]
+\centering
+% Put an image under ./figures and update the path below.
+% \includegraphics[width=0.75\linewidth]{figures/example.png}
+\fbox{\parbox{0.75\linewidth}{\centering Placeholder for a figure}}
+\caption{Example figure.}
+\label{fig:example}
+\end{figure}
+
+\subsection{Discussion}
+Refer to \cref{tab:example,fig:example}.
+
+\subsection{Conclusion}
+Summarize the key points.
+
+\newpage
+\section{Notes skeleton}
+
+\subsection{Topic}
+
+\begin{itemize}
+  \item Key idea
+  \item Key definition
+  \item Important caveat
+\end{itemize}
+
+\subsection{Code snippet}
+
+\begin{lstlisting}[language=Python,caption={Example code.}]
+def hello(name: str) -> str:
+    return f"Hello, {name}!"
+\end{lstlisting}
+
+\newpage
+\printbibliography
+
+\end{document}
+
