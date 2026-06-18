@@ -1,162 +1,534 @@
-\documentclass[11pt]{article}
+\documentclass[10pt, a4paper]{article}
 
-% --- Page and typography ---
-\usepackage[a4paper,margin=1in]{geometry}
-\usepackage{microtype}
-\usepackage{setspace}
-\onehalfspacing
+%% ========== Page geometry ==========
+\usepackage[
+    a4paper,
+    ignoreheadfoot,
+    top=1.5cm, bottom=1.5cm,
+    left=1.8cm, right=1.8cm,
+    footskip=0.8cm
+]{geometry}
 
-% --- XeLaTeX + Unicode + CJK (Chinese-capable, no Chinese content by default) ---
+%% ========== XeLaTeX fonts ==========
 \usepackage{fontspec}
 \usepackage{xeCJK}
-% If you plan to write Chinese, uncomment and choose an installed font:
-% \setCJKmainfont{PingFang SC}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Helvetica Neue}
+\setsansfont{Helvetica Neue}
+\setCJKmainfont{PingFang SC}
+\setCJKsansfont{PingFang SC}
 
-% --- Math ---
-\usepackage{amsmath,amssymb,mathtools}
-
-% --- Graphics and tables ---
-\usepackage{graphicx}
-\usepackage{booktabs}
+%% ========== Core packages ==========
+\usepackage[explicit]{titlesec}
 \usepackage{tabularx}
-
-% --- Code blocks ---
-\usepackage{listings}
-\usepackage{xcolor}
-\lstdefinestyle{base}{
-  basicstyle=\ttfamily\small,
-  columns=fullflexible,
-  breaklines=true,
-  frame=single,
-  framerule=0.2pt,
-  rulecolor=\color{black!20},
-  backgroundcolor=\color{black!2},
-  showstringspaces=false
-}
-\lstset{style=base}
-
-% --- Links, PDF metadata ---
-\usepackage{hyperref}
-\hypersetup{
-  colorlinks=true,
-  linkcolor=blue!55!black,
-  urlcolor=blue!55!black,
-  citecolor=blue!55!black,
-  pdftitle={Document Title},
-  pdfauthor={Author Name}
-}
-\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
-
-% --- Lists and paragraphs ---
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{enumitem}
-\setlist{nosep}
+\usepackage{fontawesome5}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{lastpage}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{etoolbox}
+
+%% ========== Color palette ==========
+\definecolor{primaryColor}{RGB}{0, 79, 144}
+\definecolor{accentBg}{RGB}{232, 240, 254}
+\definecolor{textColor}{RGB}{45, 45, 45}
+\definecolor{grayText}{RGB}{107, 114, 128}
+\definecolor{ruleColor}{RGB}{209, 213, 219}
+
+%% ========== Hyperlinks (must precede bookmark) ==========
+\usepackage[
+    pdftitle={Haohan Lin's CV},
+    pdfauthor={Haohan Lin},
+    colorlinks=true,
+    urlcolor=primaryColor,
+    linkcolor=primaryColor
+]{hyperref}
+\usepackage{bookmark}
+
+%% ========== Global settings ==========
+\color{textColor}
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt}
+\setlength{\topskip}{0pt}
+\setlength{\columnsep}{0.15cm}
+\linespread{1.05}
 
-% --- Theorem-like environments (useful for notes/papers) ---
-\usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[theorem]{Remark}
+%% ========== Footer ==========
+\makeatletter
+\let\ps@cvFooter\ps@plain
+\patchcmd{\ps@cvFooter}{\thepage}{%
+    \color{grayText}\textit{\small Haohan Lin — Page \thepage{} of \pageref*{LastPage}}%
+}{}{}
+\makeatother
+\pagestyle{cvFooter}
 
-% --- Bibliography (biblatex) ---
-\usepackage[backend=biber,style=authoryear,maxcitenames=2]{biblatex}
-\addbibresource{references.bib}
+%% ========== Top accent bar (every page) ==========
+\AddToShipoutPictureBG{%
+    \AtPageUpperLeft{%
+        \raisebox{-3pt}[0pt][0pt]{\color{primaryColor}\rule{\paperwidth}{3pt}}%
+    }%
+}
 
-\title{Document Title}
-\author{Author Name}
-\date{\today}
+%% ========== Section formatting ==========
+\titleformat{\section}{
+    \needspace{4\baselineskip}
+    \Large\color{primaryColor}
+}{}{0pt}{
+    \textbf{#1}\hspace{0.15cm}{\color{primaryColor}\titlerule[0.6pt]}
+}[]
 
+\titlespacing{\section}{-1pt}{0.35cm}{0.2cm}
+
+%% ========== Custom environments ==========
+
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10cm, parsep=0.10cm,
+        partopsep=0pt, itemsep=0pt,
+        leftmargin=0.4cm + 10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10cm, parsep=0.10cm,
+        partopsep=0pt, itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{0.2cm}{0.2cm}
+}{
+    \end{adjustwidth}
+}
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{1cm, \fill, 4.5cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+%% ========== Photo commands ==========
+\newcommand{\cvPhotoSize}{2.55cm}
+% Square photo (no frame): \photo[size]{filename}
+\newcommand{\photo}[2][2.9cm]{%
+    \begin{tikzpicture}
+        \pgfmathsetlengthmacro\photohalf{#1/2}%
+        \begin{scope}
+            \clip (-\photohalf,-\photohalf) rectangle (\photohalf,\photohalf);
+            \node[inner sep=0pt] at (0,0) {\includegraphics[width=#1,height=#1,keepaspectratio]{#2}};
+        \end{scope}
+    \end{tikzpicture}%
+}
+
+% Placeholder when no photo file exists (no frame)
+\newcommand{\photoplaceholder}[1][2.9cm]{%
+    \begin{tikzpicture}
+        \node[inner sep=0pt, text=grayText, font=\Large] at (0,0.12) {\faUser};
+        \node[inner sep=0pt, text=grayText, font=\tiny] at (0,-0.45) {Photo};
+    \end{tikzpicture}%
+}
+
+%% ========== Link with external-link icon ==========
+\let\hrefWithoutArrow\href
+\renewcommand{\href}[2]{%
+    \hrefWithoutArrow{#1}{%
+        \ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}%
+    }%
+}
+
+%% ========== Contact separator ==========
+\newcommand{\contactsep}{\kern 0.25cm{\color{ruleColor}\textbar}\kern 0.25cm}
+
+%% ========== Last-updated overlay ==========
+\newcommand{\placelastupdatedtext}{%
+    \AddToShipoutPictureFG*{%
+        \put(
+            \LenToUnit{\paperwidth-2cm-0.2cm+0.05cm},
+            \LenToUnit{\paperheight-1.0cm}
+        ){\vtop{{\null}\makebox[0pt][c]{
+            \small\color{grayText}\textit{Last updated in April 2026}\hspace{\widthof{Last updated in April 2026}}
+        }}}%
+    }%
+}
+
+% ================================================================
+%  DOCUMENT BEGIN
+% ================================================================
 \begin{document}
-\maketitle
 
-\begin{abstract}
-Write a short abstract here.
-\end{abstract}
+%% ==========================================================
+%%  中文简历
+%% ==========================================================
 
-\tableofcontents
-\newpage
+% --- 中文页头（含照片） ---
+\begin{minipage}[t]{\dimexpr\textwidth-3.4cm\relax}
+    % >>> 如需显示中文名，将下行改为: \textbf{林浩翰 \;|\; Haohan Lin}
+    {\fontsize{28pt}{28pt}\selectfont\color{primaryColor}\textbf{林浩瀚}\par}
 
-\section{Paper skeleton}
+    % \vspace{0.12cm}
 
-\subsection{Introduction}
-Start writing here.
+    % {\small\color{grayText}软件开发 \textperiodcentered\ 自动化测试 \textperiodcentered\ Linux / Shell 运维方向\par}
 
-\subsection{Related work}
-Cite an example article~\parencite{knuth1984literate}.
+    \vspace{0.18cm}
 
-\subsection{Method}
+    {\small\color{textColor}%
+        \mbox{\faMapMarker*\hspace{0.1cm}苏州}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{mailto:guameezia@gmail.com}{\faEnvelope[regular]\hspace{0.1cm}guameezia@gmail.com}}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{tel:+86 130 2388 0536}{\faPhone*\hspace{0.1cm}130 2388 0536}}%
 
-\begin{definition}
-A definition environment you can reuse for notes.
-\end{definition}
+        \vspace{0.12cm}
 
-\begin{theorem}
-A theorem statement.
-\end{theorem}
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/haohan-lin-a861aa359/}{\faLinkedinIn\hspace{0.1cm}Haohan Lin}}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{https://github.com/Guameezia}{\faGithub\hspace{0.1cm}Guameezia}}%
+    }
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{3.0cm}
+    \vspace{0pt}\raggedleft
+    \photo[\cvPhotoSize]{profile.png}
+\end{minipage}
 
-\begin{proof}
-A proof.
-\end{proof}
+\vspace{-0.14cm}
+\noindent{\color{ruleColor}\hrule height 0.4pt}
+\vspace{0.12cm}
 
-\subsection{Results}
+\vspace{-0.3cm}
+% --- 教育经历 ---
+\section{教育经历}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{lll}
-\toprule
-Item & Value & Notes \\
-\midrule
-A & 1 & Example \\
-B & 2 & Example \\
-\bottomrule
-\end{tabular}
-\caption{Example table.}
-\label{tab:example}
-\end{table}
+    \begin{threecolentry}{\textbf{本科}}{
+        中国苏州
 
-\begin{figure}[h]
-\centering
-% Put an image under ./figures and update the path below.
-% \includegraphics[width=0.75\linewidth]{figures/example.png}
-\fbox{\parbox{0.75\linewidth}{\centering Placeholder for a figure}}
-\caption{Example figure.}
-\label{fig:example}
-\end{figure}
+        2024.9 – 2028.7
+    }
+        \textbf{信息与计算科学专业（计算机科学）} \\ 西交利物浦大学（XJTLU）
+        \begin{highlights}
+            \item \textbf{核心课程：} 数据结构、操作系统、计算机系统、计算机网络、数据库、算法、软件工程、Java 程序设计、人工智能、机器学习、人工智能应用设计、多智能体系统、人机交互、计算机图形学、离散数学与统计学、线性代数、多元微积分
+            \item \textbf{第一学年平均成绩：} 74\%
+            \item \textbf{第二学年平均成绩（第一学期）：} 78\%（专业前 20\%）
+            \item[] {\small\color{grayText}\textit{英制百分制（0--100）；70 分及以上为一等区间（成绩上限档，相当于满绩）}}
+        \end{highlights}
+    \end{threecolentry}
 
-\subsection{Discussion}
-Refer to \cref{tab:example,fig:example}.
+\vspace{-0.3cm}
 
-\subsection{Conclusion}
-Summarize the key points.
+% --- 项目经历 ---
+\section{项目经历}
 
-\newpage
-\section{Notes skeleton}
+    \begin{twocolentry}{
+        中国苏州
 
-\subsection{Topic}
+        2025.6 – 2025.8
 
-\begin{itemize}
-  \item Key idea
-  \item Key definition
-  \item Important caveat
-\end{itemize}
+        \vspace{1em}
 
-\subsection{Code snippet}
+        \href{https://github.com/Guameezia/2025_SURF_Poster}{github.com/Guameezia/ \\ 2025\_SURF\_Poster}
+    }
+        \textbf{SVD 与 CNN 在图像处理中的对比与优化}
+        \begin{highlights}
+            \item 导师：杨其儒博士；基于 Python（NumPy / PyTorch / Matplotlib）搭建图像处理与机器学习实验流水线，覆盖数据预处理、训练与评估全流程
+            \item 设计 SVD 低秩近似与 CNN 两套图像重建方案的对比实验 %，从压缩比、重建误差（PSNR）与运行效率多维度量化分析，输出可复现的实验脚本与结果
+            \item 使用 Git 进行版本管理与多人协作，任科研海报 LaTeX 总编辑%，负责终版版式统一；项目获学校正式科研证明
+        \end{highlights}
+    \end{twocolentry}
 
-\begin{lstlisting}[language=Python,caption={Example code.}]
-def hello(name: str) -> str:
-    return f"Hello, {name}!"
-\end{lstlisting}
+    \vspace{0.2cm}
 
-\newpage
-\printbibliography
+    \begin{twocolentry}{
+        中国苏州
 
+    2026.3 – 至今
+    }
+        \textbf{AI Agent 驱动的校园室内导航与实时社交一体化平台（UniNavi）}
+        \begin{highlights}
+            \item 导师：马腾博士（在研）；负责室内导航与 AI Agent 模块的设计与工程实现
+            \item 搭建多层室内路径规划，开发具身 AI Agent 数字人，基于 LLM 与 RAG 检索增强构建对话引擎，结合 Function Calling 工具调用与 ReAct 推理规划完成校园导引与多任务编排。Git 管理版本迭代，持续完善功能与稳定性
+            % \item 采用前后端分离架构（React 前端 + Python 服务端），通过 \textbf{Docker} 容器化部署到 \textbf{Linux} 服务器，统一开发与运行环境
+            % \item 使用 Git 管理多人协作与版本迭代，持续完善功能与稳定性
+        \end{highlights}
+    \end{twocolentry}
+
+\vspace{-0.3cm}
+
+% --- 工作经历 ---
+\section{工作经历}
+
+    \begin{twocolentry}{
+        中国上海
+
+        2026.1 – 2026.3
+    }
+        \textbf{测试开发实习生}，上海兑观信息科技有限公司
+        \begin{highlights}
+            \item 基于 Shell/Bash 编写自动化测试与运维辅助脚本%（数据提取、日志清洗、批量校验），并用 \textbf{cron} 配置定时任务，将多项重复性操作脚本化，单次执行时间从约 30 分钟降至 5 分钟内
+            % \item 在 Linux 服务器上排查服务异常：查看系统与应用日志、定位异常进程与端口占用、复现并回归验证缺陷，协助保障测试环境与系统稳定运行
+            \item 使用 Docker 拉起与复现测试环境，统一本地与服务器依赖版本%，缩短环境搭建与问题复现时间
+            % \item 执行功能、性能与接口测试，累计编写并维护 60+ 条测试用例，提交与跟踪 40+ 个缺陷，输出可复现的缺陷报告与步骤
+            \item 使用 Python（Playwright） 编写爬虫脚本批量抓取分析平台数据，清洗后结合 Excel 元数据对接公司系统数据库，支撑测试数据准备与功能验证
+        \end{highlights}
+    \end{twocolentry}
+
+\vspace{-0.3cm}
+
+% --- 技能特长 ---
+\section{技能特长}
+
+    \begin{onecolentry}
+        \textbf{编程与标记语言：} C/C++、Python、Java、JavaScript、TypeScript、SQL、HTML、CSS、MATLAB、LaTeX
+    \end{onecolentry}
+
+    \vspace{0.1cm}
+
+    \begin{onecolentry}
+        \textbf{运维与系统：} Linux（Ubuntu）、Shell / Bash 脚本、日志排查与进程/端口定位、Docker 容器化、Git 版本管理
+    \end{onecolentry}
+
+    \vspace{0.1cm}
+
+    \begin{onecolentry}
+        \textbf{测试与质量：} 功能 / 性能 / 接口测试、Playwright 自动化脚本、缺陷管理与回归验证、测试用例设计
+    \end{onecolentry}
+
+    \vspace{0.1cm}
+
+    \begin{onecolentry}
+        \textbf{工具与平台：} Cursor / VS Code / Xcode 等 IDE，熟练运用 AI 辅助编程（Cursor、Codex、Claude Code）提升开发效率；React 前端开发；macOS / Linux 双平台；Microsoft Office 基础操作
+    \end{onecolentry}
+
+% --- 个人总结 ---
+\section{个人总结}
+
+    \begin{onecolentry}
+        \textbf{计算机科学}方向本科在读（西交利物浦大学，信息与计算科学），具备扎实的编程基础与工程实践能力。熟悉 \textbf{Linux} 环境下的 \textbf{Shell/Bash} 脚本编写、日志排查与 \textbf{Docker} 容器化部署，并有自动化测试与质量保障经验；兼具 SURF 科研、UniNavi 在研项目与测试开发实习等经历，能快速上手新技术。
+    \end{onecolentry}
+
+\clearpage
+
+
+%% ==========================================================
+%%  ENGLISH CV
+%% ==========================================================
+\begingroup
+\small
+\linespread{0.96}\selectfont
+\emergencystretch=1em
+\titlespacing{\section}{-1pt}{0.22cm}{0.10cm}
+\renewenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.04cm, parsep=0.02cm,
+        partopsep=0pt, itemsep=0pt,
+        leftmargin=0.34cm + 8pt
+    ]
+}{
+    \end{itemize}
+}
+\renewenvironment{onecolentry}{
+    \begin{adjustwidth}{0.12cm}{0.12cm}
+}{
+    \end{adjustwidth}
+}
+\renewenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 3.8cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+\renewenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{0.9cm, \fill, 3.8cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+% --- Header with photo (top-aligned; gray rule sits slightly up toward photo) ---
+\begin{minipage}[t]{\dimexpr\textwidth-3.4cm\relax}
+    {\fontsize{25pt}{25pt}\selectfont\color{primaryColor}\textbf{Haohan Lin}\par}
+
+    % \vspace{0.12cm}
+
+    % {\small\color{grayText}Software Development \textperiodcentered\ Test Automation \textperiodcentered\ Linux / Shell Operations\par}
+
+    \vspace{0.10cm}
+
+    {\small\color{textColor}%
+        \mbox{\faMapMarker*\hspace{0.1cm}Suzhou, China}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{mailto:guameezia@gmail.com}{\faEnvelope[regular]\hspace{0.1cm}guameezia@gmail.com}}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{tel:+86 130 2388 0536}{\faPhone*\hspace{0.1cm}+86 130 2388 0536}}%
+
+        \vspace{0.06cm}
+
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/haohan-lin-a861aa359/}{\faLinkedinIn\hspace{0.1cm}Haohan Lin}}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{https://github.com/Guameezia}{\faGithub\hspace{0.1cm}Guameezia}}%
+    }
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{3.0cm}
+    \vspace{0pt}\raggedleft
+    \photo[\cvPhotoSize]{profile.png}
+\end{minipage}
+
+\vspace{-0.14cm}
+\noindent{\color{ruleColor}\hrule height 0.4pt}
+\vspace{0.06cm}
+
+\vspace{-0.2cm}
+% --- Education ---
+\section{Education}
+
+    \begin{threecolentry}{\textbf{BSc}}{
+        Suzhou, China
+
+        Sept 2024 – Jul 2028
+    }
+        \textbf{Information and Computing Science} \\ Xi'an Jiaotong-Liverpool University (XJTLU)
+        \begin{highlights}
+            \item \textbf{Core coursework:} OS, Computer Systems, Networks, Databases, Data Structures, Algorithms, Software Engineering, Java, AI, ML, Multi-Agent Systems, HCI, Graphics, Discrete Math/Stats, Linear Algebra, Multivariable Calculus
+            \item \textbf{Stage 1 average:} 74\%
+            \item \textbf{Stage 2 average (Semester 1):} 78\% (top 20\% in programme)
+            \item[] {\small\color{grayText}\textit{UK-style marks (0--100); 70+ = First Class (top band; near full marks).}}
+            % \item \textbf{Current main skill course grades:} \\
+            % CPT001 Professional Skills in Computer Science \hfill 82\% \\
+            % MTH007 Linear Algebra \hfill 94\% \\
+            % MTH004 Multivariable Calculus \hfill 96\% \\
+            % (Can provide complete transcript)
+        \end{highlights}
+    \end{threecolentry}
+
+\vspace{-0.2cm}
+% --- Projects ---
+\section{Projects}
+
+    \begin{twocolentry}{
+        Suzhou, China
+
+    Jun 2025 – Aug 2025
+
+    \vspace{0.45em}
+
+    \href{https://github.com/Guameezia/2025_SURF_Poster}{github.com/Guameezia/ \\ 2025\_SURF\_Poster}
+    }
+        \textbf{Comparative Study and Optimization of SVD and CNN in Image Processing}
+        \begin{highlights}
+            \item Supervised by Dr.\ Chi-Ru Yang; built an image-processing and ML pipeline in \textbf{Python} (NumPy / PyTorch / Matplotlib), covering pre-processing, training, and evaluation
+            \item Designed comparison experiments between SVD low-rank approximation and CNN reconstruction %, quantifying compression ratio, reconstruction error (PSNR), and runtime efficiency with reproducible scripts and results
+            \item Used Git for version control and team collaboration; served as chief LaTeX editor of the research poster %; responsible for the final layout; project received a university-issued research certificate
+        \end{highlights}
+    \end{twocolentry}
+
+    \vspace{0.06cm}
+
+    \begin{twocolentry}{
+        Suzhou, China
+
+    Mar 2026 – Present
+    }
+        \textbf{AI-Agent-Driven Integrated Campus Indoor Navigation and Real-Time Social Platform (UniNavi)}
+        \begin{highlights}
+            \item Supervised by Dr.\ Teng Ma (ongoing); responsible for indoor-navigation and AI-agent modules from design to implementation
+            \item Building multi-floor indoor path planning and an embodied AI-agent avatar; developed an \textbf{LLM} + \textbf{RAG} dialogue engine with Function Calling and ReAct reasoning for campus guidance and multi-task orchestration; managing Git-based iteration
+            % \item Front-end/back-end split architecture (React front end + Python back end), containerized with \textbf{Docker} and deployed to a \textbf{Linux} server for consistent dev and runtime environments
+            % \item Managing team collaboration and version iteration with Git while continuously improving features and stability
+        \end{highlights}
+    \end{twocolentry}
+
+% --- Work Experience ---
+\vspace{-0.2cm}
+\section{Work Experience}
+
+    \begin{twocolentry}{
+        Shanghai, China
+
+    Jan 2026 – Mar 2026
+    }
+        \textbf{Test Development Intern}, Shanghai Videt Information Technology Co., Ltd.
+        \begin{highlights}
+            \item Wrote \textbf{Shell/Bash} scripts for automated testing and operations support %(data extraction, log cleaning, batch validation) and scheduled them with \textbf{cron}, cutting recurring manual tasks from $\sim$30 min to under 5 min per run
+            % \item Troubleshot service issues on \textbf{Linux} servers: inspected system/application logs, traced abnormal processes and port usage, reproduced and regression-verified defects to help keep test environments and systems stable
+            \item Used \textbf{Docker} to spin up and reproduce test environments, aligning dependency versions across local and server setups %and reducing setup/repro time
+            % \item Ran functional, performance, and API testing; authored and maintained 60+ test cases and filed/tracked 40+ defects with reproducible bug reports
+            \item Wrote \textbf{Python} (Playwright) crawler scripts to batch-scrape analysis-platform data, clean it, and integrate it with Excel metadata and the company's system database for test-data preparation and functional verification
+        \end{highlights}
+    \end{twocolentry}
+
+% --- Skills ---
+\section{Skills}
+
+    \begin{onecolentry}
+        \textbf{Programming \& Markup:} C/C++, Python, Java, JavaScript, TypeScript, SQL, HTML, CSS, MATLAB, LaTeX
+    \end{onecolentry}
+
+\vspace{0.06cm}
+
+    \begin{onecolentry}
+        \textbf{Operations \& Systems:} Linux (Ubuntu), Shell / Bash scripting, log troubleshooting and process/port diagnosis, Docker containerization, Git version control
+    \end{onecolentry}
+
+\vspace{0.06cm}
+
+    \begin{onecolentry}
+        \textbf{Testing \& Quality:} functional / performance / API testing, Playwright automation, defect management and regression, test-case design
+    \end{onecolentry}
+
+\vspace{0.06cm}
+
+    \begin{onecolentry}
+        \textbf{Tools \& Platforms:} IDEs such as Cursor / VS Code / Xcode, proficient with AI-assisted coding (Cursor, Codex, Claude Code) to boost development efficiency; React front-end development; macOS / Linux dual platform; basic Microsoft Office
+    \end{onecolentry}
+
+% --- Summary ---
+\section{Summary}
+
+    \begin{onecolentry}
+        Undergraduate \textbf{computer science} student (Information and Computing Science, XJTLU) with a solid programming foundation and hands-on engineering experience. Comfortable with \textbf{Shell/Bash}, log troubleshooting, \textbf{Docker} on \textbf{Linux}, test automation, and quality assurance; experience spans SURF research, UniNavi, and a test-development internship.
+    \end{onecolentry}
+
+\endgroup
 \end{document}
-
