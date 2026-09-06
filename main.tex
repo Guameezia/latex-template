@@ -4,9 +4,9 @@
 \usepackage[
     a4paper,
     ignoreheadfoot,
-    top=1.5cm, bottom=1.5cm,
-    left=1.8cm, right=1.8cm,
-    footskip=0.8cm
+    top=1.2cm, bottom=1.2cm,
+    left=1.55cm, right=1.55cm,
+    footskip=0.55cm
 ]{geometry}
 
 %% ========== XeLaTeX fonts ==========
@@ -82,7 +82,7 @@
 %% ========== Section formatting ==========
 \titleformat{\section}{
     \needspace{4\baselineskip}
-    \Large\color{primaryColor}
+    \large\color{primaryColor}
 }{}{0pt}{
     \textbf{#1}\hspace{0.15cm}{\color{primaryColor}\titlerule[0.6pt]}
 }[]
@@ -141,7 +141,7 @@
 }
 
 %% ========== Photo commands ==========
-\newcommand{\cvPhotoSize}{2.55cm}
+\newcommand{\cvPhotoSize}{2.35cm}
 % Square photo (no frame): \photo[size]{filename}
 \newcommand{\photo}[2][2.9cm]{%
     \begin{tikzpicture}
@@ -169,6 +169,13 @@
     }%
 }
 
+%% ========== Experience / project / education title ==========
+% Body is \small (~9pt); titles are 11pt with slightly looser leading
+\newcommand{\cvtitle}[1]{%
+    {\fontsize{10.5pt}{12pt}\selectfont #1\par}%
+    \vspace{0.02cm}%
+}
+
 %% ========== Contact separator ==========
 \newcommand{\contactsep}{\kern 0.25cm{\color{ruleColor}\textbar}\kern 0.25cm}
 
@@ -179,7 +186,7 @@
             \LenToUnit{\paperwidth-2cm-0.2cm+0.05cm},
             \LenToUnit{\paperheight-1.0cm}
         ){\vtop{{\null}\makebox[0pt][c]{
-            \small\color{grayText}\textit{Last updated in April 2026}\hspace{\widthof{Last updated in April 2026}}
+            \small\color{grayText}\textit{Last updated in August 2026}\hspace{\widthof{Last updated in August 2026}}
         }}}%
     }%
 }
@@ -192,166 +199,13 @@
 %% ==========================================================
 %%  中文简历
 %% ==========================================================
-
-% --- 中文页头（含照片） ---
-\begin{minipage}[t]{\dimexpr\textwidth-3.4cm\relax}
-    % >>> 如需显示中文名，将下行改为: \textbf{林浩翰 \;|\; Haohan Lin}
-    {\fontsize{28pt}{28pt}\selectfont\color{primaryColor}\textbf{林浩瀚}\par}
-
-    % \vspace{0.12cm}
-
-    % {\small\color{grayText}软件开发 \textperiodcentered\ 自动化测试 \textperiodcentered\ Linux / Shell 运维方向\par}
-
-    \vspace{0.18cm}
-
-    {\small\color{textColor}%
-        \mbox{\faMapMarker*\hspace{0.1cm}苏州}%
-        \contactsep
-        \mbox{\hrefWithoutArrow{mailto:guameezia@gmail.com}{\faEnvelope[regular]\hspace{0.1cm}guameezia@gmail.com}}%
-        \contactsep
-        \mbox{\hrefWithoutArrow{tel:+86 130 2388 0536}{\faPhone*\hspace{0.1cm}130 2388 0536}}%
-
-        \vspace{0.12cm}
-
-        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/haohan-lin}{\faLinkedinIn\hspace{0.1cm}Haohan Lin}}%
-        \contactsep
-        \mbox{\hrefWithoutArrow{https://github.com/Guameezia}{\faGithub\hspace{0.1cm}Guameezia}}%
-    }
-\end{minipage}%
-\hfill
-\begin{minipage}[t]{3.0cm}
-    \vspace{0pt}\raggedleft
-    \photo[\cvPhotoSize]{profile.png}
-\end{minipage}
-
-\vspace{-0.14cm}
-\noindent{\color{ruleColor}\hrule height 0.4pt}
-\vspace{0.12cm}
-
-\vspace{-0.3cm}
-% --- 教育经历 ---
-\section{教育经历}
-
-    \begin{threecolentry}{\textbf{本科}}{
-        中国苏州
-
-        2024.9 – 2028.7
-    }
-        \textbf{信息与计算科学专业（计算机科学）} \\ 西交利物浦大学（XJTLU）
-        \begin{highlights}
-            \item \textbf{核心课程：} 数据结构、操作系统、计算机系统、计算机网络、数据库、算法、软件工程、Java 程序设计、人工智能、机器学习、人工智能应用设计、多智能体系统、人机交互、计算机图形学、离散数学与统计学、线性代数、多元微积分
-            \item \textbf{第一学年平均成绩：} 74\%
-            \item \textbf{第二学年平均成绩（第一学期）：} 78\%（专业前 20\%）
-            \item[] {\small\color{grayText}\textit{英制百分制（0--100）；70 分及以上为一等区间（成绩上限档，相当于满绩）}}
-        \end{highlights}
-    \end{threecolentry}
-
-\vspace{-0.3cm}
-
-% --- 项目经历 ---
-\section{项目经历}
-
-    \begin{twocolentry}{
-        中国苏州
-
-        2025.6 – 2025.8
-
-        \vspace{1em}
-
-        \href{https://github.com/Guameezia/2025_SURF_Poster}{github.com/Guameezia/ \\ 2025\_SURF\_Poster}
-    }
-        \textbf{SVD 与 CNN 在图像处理中的对比与优化}
-        \begin{highlights}
-            \item 导师：杨其儒博士；基于 Python（NumPy / PyTorch / Matplotlib）搭建图像处理与机器学习实验流水线，覆盖数据预处理、训练与评估全流程
-            \item 设计 SVD 低秩近似与 CNN 两套图像重建方案的对比实验 %，从压缩比、重建误差（PSNR）与运行效率多维度量化分析，输出可复现的实验脚本与结果
-            \item 使用 Git 进行版本管理与多人协作，任科研海报 LaTeX 总编辑%，负责终版版式统一；项目获学校正式科研证明
-        \end{highlights}
-    \end{twocolentry}
-
-    \vspace{0.2cm}
-
-    \begin{twocolentry}{
-        中国苏州
-
-    2026.3 – 至今
-    }
-        \textbf{AI Agent 驱动的校园室内导航与实时社交一体化平台（UniNavi）}
-        \begin{highlights}
-            \item 导师：马腾博士（在研）；负责室内导航与 AI Agent 模块的设计与工程实现
-            \item 搭建多层室内路径规划，开发具身 AI Agent 数字人，基于 LLM 与 RAG 检索增强构建对话引擎，结合 Function Calling 工具调用与 ReAct 推理规划完成校园导引与多任务编排。Git 管理版本迭代，持续完善功能与稳定性
-            % \item 采用前后端分离架构（React 前端 + Python 服务端），通过 \textbf{Docker} 容器化部署到 \textbf{Linux} 服务器，统一开发与运行环境
-            % \item 使用 Git 管理多人协作与版本迭代，持续完善功能与稳定性
-        \end{highlights}
-    \end{twocolentry}
-
-\vspace{-0.3cm}
-
-% --- 工作经历 ---
-\section{工作经历}
-
-    \begin{twocolentry}{
-        中国上海
-
-        2026.1 – 2026.3
-    }
-        \textbf{测试开发实习生}，上海兑观信息科技有限公司
-        \begin{highlights}
-            \item 基于 Shell/Bash 编写自动化测试与运维辅助脚本%（数据提取、日志清洗、批量校验），并用 \textbf{cron} 配置定时任务，将多项重复性操作脚本化，单次执行时间从约 30 分钟降至 5 分钟内
-            % \item 在 Linux 服务器上排查服务异常：查看系统与应用日志、定位异常进程与端口占用、复现并回归验证缺陷，协助保障测试环境与系统稳定运行
-            \item 使用 Docker 拉起与复现测试环境，统一本地与服务器依赖版本%，缩短环境搭建与问题复现时间
-            % \item 执行功能、性能与接口测试，累计编写并维护 60+ 条测试用例，提交与跟踪 40+ 个缺陷，输出可复现的缺陷报告与步骤
-            \item 使用 Python（Playwright） 编写爬虫脚本批量抓取分析平台数据，清洗后结合 Excel 元数据对接公司系统数据库，支撑测试数据准备与功能验证
-        \end{highlights}
-    \end{twocolentry}
-
-\vspace{-0.3cm}
-
-% --- 技能特长 ---
-\section{技能特长}
-
-    \begin{onecolentry}
-        \textbf{编程与标记语言：} C/C++、Python、Java、JavaScript、TypeScript、SQL、HTML、CSS、MATLAB、LaTeX
-    \end{onecolentry}
-
-    \vspace{0.1cm}
-
-    \begin{onecolentry}
-        \textbf{运维与系统：} Linux（Ubuntu）、Shell / Bash 脚本、日志排查与进程/端口定位、Docker 容器化、Git 版本管理
-    \end{onecolentry}
-
-    \vspace{0.1cm}
-
-    \begin{onecolentry}
-        \textbf{测试与质量：} 功能 / 性能 / 接口测试、Playwright 自动化脚本、缺陷管理与回归验证、测试用例设计
-    \end{onecolentry}
-
-    \vspace{0.1cm}
-
-    \begin{onecolentry}
-        \textbf{工具与平台：} Cursor / VS Code / Xcode 等 IDE，熟练运用 AI 辅助编程（Cursor、Codex、Claude Code）提升开发效率；React 前端开发；macOS / Linux 双平台；Microsoft Office 基础操作
-    \end{onecolentry}
-
-% --- 个人总结 ---
-\section{个人总结}
-
-    \begin{onecolentry}
-        \textbf{计算机科学}方向本科在读（西交利物浦大学，信息与计算科学），具备扎实的编程基础与工程实践能力。熟悉 \textbf{Linux} 环境下的 \textbf{Shell/Bash} 脚本编写、日志排查与 \textbf{Docker} 容器化部署，并有自动化测试与质量保障经验；兼具 SURF 科研、UniNavi 在研项目与测试开发实习等经历，能快速上手新技术。
-    \end{onecolentry}
-
-\clearpage
-
-
-%% ==========================================================
-%%  ENGLISH CV
-%% ==========================================================
 \begingroup
-\small
-\linespread{0.96}\selectfont
+\fontsize{8.8pt}{9.8pt}\selectfont
 \emergencystretch=1em
-\titlespacing{\section}{-1pt}{0.22cm}{0.10cm}
+\titlespacing{\section}{-1pt}{0.16cm}{0.07cm}
 \renewenvironment{highlights}{
     \begin{itemize}[
-        topsep=0.04cm, parsep=0.02cm,
+        topsep=0.025cm, parsep=0.02cm,
         partopsep=0pt, itemsep=0pt,
         leftmargin=0.34cm + 8pt
     ]
@@ -366,7 +220,7 @@
 \renewenvironment{twocolentry}[2][]{
     \onecolentry
     \def\secondColumn{#2}
-    \setcolumnwidth{\fill, 3.8cm}
+    \setcolumnwidth{\fill, 3.35cm}
     \begin{paracol}{2}
 }{
     \switchcolumn \raggedleft \secondColumn
@@ -376,7 +230,240 @@
 \renewenvironment{threecolentry}[3][]{
     \onecolentry
     \def\thirdColumn{#3}
-    \setcolumnwidth{0.9cm, \fill, 3.8cm}
+    \setcolumnwidth{0.9cm, \fill, 3.35cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+% --- 中文页头（含照片） ---
+\begin{minipage}[t]{\dimexpr\textwidth-3.4cm\relax}
+    % >>> 如需显示中文名，将下行改为: \textbf{林浩翰 \;|\; Haohan Lin}
+    {\fontsize{23pt}{23pt}\selectfont\color{primaryColor}\textbf{林浩瀚}\par}
+
+    % \vspace{0.12cm}
+
+    % {\small\color{grayText}软件开发 \textperiodcentered\ 自动化测试 \textperiodcentered\ Linux / Shell 运维方向\par}
+
+    \vspace{0.36cm}
+
+    {\small\color{textColor}%
+        \mbox{\faMapMarker*\hspace{0.1cm}苏州}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{mailto:guameezia@gmail.com}{\faEnvelope[regular]\hspace{0.1cm}guameezia@gmail.com}}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{tel:+86 130 2388 0536}{\faPhone*\hspace{0.1cm}130 2388 0536}}%
+
+        \vspace{0.14cm}
+
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/haohan-lin}{\faLinkedinIn\hspace{0.1cm}Haohan Lin}}%
+        \contactsep
+        \mbox{\hrefWithoutArrow{https://github.com/Guameezia}{\faGithub\hspace{0.1cm}Guameezia}}%
+    }
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{2.75cm}
+    \vspace{0pt}\raggedleft
+    \photo[\cvPhotoSize]{profile.png}
+\end{minipage}
+
+% \vspace{-0.14cm}
+\noindent{\color{ruleColor}\hrule height 0.4pt}
+\vspace{0.06cm}
+
+% \vspace{-0.2cm}
+% --- 工作经历 ---
+\section{工作经历}
+
+    \begin{twocolentry}{
+        中国苏州
+
+        2026.7 – 至今
+    }
+        \cvtitle{\textbf{软件开发实习生}，博世汽车部件（苏州）有限公司}
+        \vspace{0.3em}
+        \textbf{项目简介：}博世 VM 部门内部桌面工具 \mbox{AutoVariant}\allowbreak\mbox{GeneratedTool}（Python + PyQt 开发，PyInstaller 打包 EXE），面向 BYD / Geely / Chery / Zeeker 等主机厂\newline
+    \end{twocolentry}
+
+    \vspace{-0.18cm}
+
+    \begin{onecolentry}
+
+        \textbf{功能细节：}Python 实现需求工程流水线：AS 配置文件 $\to$ 生成 FS 规范报告；规则生成 variant code；上传 IBM DOORS 并绑定需求追溯 links。DOORS系统在博世内部广泛使用，用于管理需求与变更，但是存在打开系统等待时间过长，手动录入效率低，因此需要开发自动化工具来提高工作效率。\newline
+        \vspace{-0.85em}
+
+        \textbf{我的职责：}全栈独立负责该产品线：按照不同客户差异化配置开发、处理同事反馈，将工具从 v1.4 迭代至 v1.4.4\newline
+        \vspace{-0.85em}
+
+        \begin{highlights}
+            \item \textbf{IBM DOORS API：}配置远程 API 调用，支持上传、刷新、查询与需求追溯 link 绑定，无需手动打开 IBM DOORS 客户端
+            \item \textbf{工作流 Agent 应用：}在已有 PyQt GUI 与可复用脚本上接入 OpenCode CLI 及博世内部 Kimi K2.5，结合 Tool Calling / Skill 编排生成、校验、预填、上传 DOORS 及对应 link
+            \item \textbf{AI skill / tool 编排：}将既有脚本封装为可调用 Skill / Tool，schema 字段由规则预填，模型只补非结构化文本；执行操作之前用户预览确认，无模型时可降级离线运行
+            \item \textbf{数据分析工具：}面向各车企客户的贡献管理，用 pandas / openpyxl 处理多产品 Excel 源表，并结合原生公式与数据透视表实时刷新；轻量 HTML 页面支持细粒度结果抽取
+            \item \textbf{跨国协作开发：}与日本 / 越南博世同事对接，配合开发效力相当的 JP 版本桌面工具，复用多客户变体规则与 DOORS 自动化流程
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.14cm}
+
+    \begin{twocolentry}{
+        中国上海
+
+        2026.1 – 2026.3
+    }
+        \cvtitle{\textbf{测试开发实习生}，上海兑观信息科技有限公司}
+        \begin{highlights}
+            % \item 用 Shell/Bash 编写测试与运维脚本（数据提取、日志清洗、批量校验），将重复操作从约 30 分钟压到 5 分钟内
+            % \item 在 Linux 服务器上排查服务异常：查看系统与应用日志、定位异常进程与端口占用、复现并回归验证缺陷，协助保障测试环境与系统稳定运行
+            \item 用 Python（Playwright / Selenium）做分析平台数据采集与清洗，结合 Excel 元数据 join 后写入公司库，支撑测试数据准备
+            \item 用 Docker 容器化拉起并复现测试环境，对齐本地与服务器依赖，提升环境一致性
+            % \item 执行功能、性能与接口测试，累计编写并维护 60+ 条测试用例，提交与跟踪 40+ 个缺陷，输出可复现的缺陷报告与步骤
+        \end{highlights}
+    \end{twocolentry}
+
+% \vspace{-0.2cm}
+
+% --- 项目经历 ---
+\section{项目经历}
+
+    \begin{twocolentry}{
+        中国苏州
+
+        2026.3 – 2026.8
+
+        SURF 2026
+
+        {\footnotesize （ 西交利物浦大学}
+
+        {\footnotesize 暑期本科科研 ）}
+
+        导师：马腾博士
+
+        \vspace{0.45em}
+
+        \href{https://github.com/Guameezia/SURF-2026-uniNavi}{github.com/ \\ Guameezia/SURF-2026-uniNavi}
+    }
+        \cvtitle{\textbf{校园室内导航与地点化社交平台（UniNavi）}}
+        \vspace{0.3em}
+        \begin{highlights}
+            \item \textbf{前端与全层导航：}用 React / TypeScript / Vite / Zustand 做 0F--5F \mbox{室内导航} Web，将 uni-app 小程序迁到 React / SVG；支持 POI 选择、SVG overlay 路径渲染、视口缩放 / 平移与小地图联动
+            \item \textbf{跨层寻路：}实地采集 500+ 节点 / 600+ 边加权室内图；最小堆 Dijkstra 做同层最短路，跨层\mbox{拆成}「起点至 portal / 竖井换层 / 竖井至终点」三段，按连通分量识别电梯与楼梯竖井并输出 RouteSegment
+            \item \textbf{地图数据与地点社交：}正交化路网（走廊禁斜连、入房按曼哈顿距离计价、waypoints 贴\mbox{走廊}），\mbox{解析} draw.io 导出 SVG \mbox{生成}房间/走廊/竖井区并映射到 viewBox；便签按关键词规则自动打标签，同房间聚类后按热度升成话题
+        \end{highlights}
+    \end{twocolentry}
+
+    \vspace{0.08cm}
+
+    \begin{twocolentry}{
+        中国苏州
+
+        2025.6 – 2025.8
+
+        SURF 2025
+
+        导师：楊其儒博士
+
+        \vspace{0.25em}
+
+        \href{https://github.com/Guameezia/2025_SURF_Poster}{github.com/Guameezia/ \\ 2025\_SURF\_Poster}
+    }
+        \cvtitle{\textbf{SVD 与 CNN 在图像处理中的对比与优化}}
+        \vspace{0.3em}
+        \begin{highlights}
+            \item \textbf{实验流水线：}用 Python（NumPy / PyTorch / Matplotlib）搭建医学图像处理流水线，覆盖预处理、\mbox{训练}与评估，面向病灶分析（肿瘤、皮肤病变）
+            \item \textbf{量化对比：}对比 truncated SVD 低秩近似与 CNN 图像重建，从压缩比、PSNR 与运行效率量化差异，并输出可复现脚本
+            \item \textbf{科研海报：}任科研海报 LaTeX 总编辑，统一终版版式；用 Git 协作，项目获学校科研证明
+        \end{highlights}
+    \end{twocolentry}
+
+\vspace{-0.2cm}
+
+% --- 教育经历 ---
+\section{教育经历}
+
+    \begin{threecolentry}{\textbf{本科}}{
+        中国苏州
+
+        2024.9 – 2028.7
+    }
+        \cvtitle{\textbf{信息与计算科学专业（计算机科学）} \\ 西交利物浦大学（XJTLU）}
+        \begin{highlights}
+            \item \textbf{核心课程：} 数据结构、操作系统、计算机系统、计算机网络、数据库、算法、软件工程、Java 程序设计、人工智能、机器学习、人工智能应用设计、多智能体系统、人机交互、计算机图形学、离散数学与统计学、线性代数、多元微积分
+            \item \textbf{第一学年平均成绩：} 74\%
+            \item \textbf{第二学年平均成绩：} 80\%（专业前 20\%）
+            \item[] {\small\color{grayText}\textit{英制百分制（0--100）；70 分及以上为一等学位（First Class，最高等级档）}}
+        \end{highlights}
+    \end{threecolentry}
+
+\vspace{-0.2cm}
+
+% --- 技能特长 ---
+\section{技能特长}
+
+    \begin{onecolentry}
+        \textbf{编程与标记语言：} C/C++、Python、Java、JavaScript、TypeScript、SQL、HTML、CSS、MATLAB、LaTeX
+    \end{onecolentry}
+
+\vspace{0.06cm}
+
+    \begin{onecolentry}
+        \textbf{运维与系统：} Linux、Shell / Bash 脚本、日志排查与进程/端口定位、Docker 容器化、Git 版本管理
+    \end{onecolentry}
+
+\vspace{0.06cm}
+
+    \begin{onecolentry}
+        \textbf{测试与质量：} 功能 / 性能 / 接口测试、Playwright 自动化脚本、缺陷管理与回归验证、测试用例设计
+    \end{onecolentry}
+
+\vspace{0.06cm}
+
+    \begin{onecolentry}
+        \textbf{工具与平台：} Cursor / VS Code / Xcode；IBM DOORS；AI 辅助编程（Cursor、Codex、Claude Code）；工作流 Agent（OpenCode、Kimi K2.5、Tool Calling / Skill 编排、Human-in-the-loop）；React / Vite / Zustand / SVG；macOS
+    \end{onecolentry}
+
+\endgroup
+\clearpage
+
+
+%% ==========================================================
+%%  ENGLISH CV
+%% ==========================================================
+\begingroup
+\fontsize{8.55pt}{9.45pt}\selectfont
+\emergencystretch=1em
+\titlespacing{\section}{-1pt}{0.16cm}{0.07cm}
+\renewenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.025cm, parsep=0.015cm,
+        partopsep=0pt, itemsep=0pt,
+        leftmargin=0.34cm + 8pt
+    ]
+}{
+    \end{itemize}
+}
+\renewenvironment{onecolentry}{
+    \begin{adjustwidth}{0.12cm}{0.12cm}
+}{
+    \end{adjustwidth}
+}
+\renewenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 3.35cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+\renewenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{0.9cm, \fill, 3.35cm}
     \begin{paracol}{3}
     {\raggedright #2} \switchcolumn
 }{
@@ -387,13 +474,13 @@
 
 % --- Header with photo (top-aligned; gray rule sits slightly up toward photo) ---
 \begin{minipage}[t]{\dimexpr\textwidth-3.4cm\relax}
-    {\fontsize{25pt}{25pt}\selectfont\color{primaryColor}\textbf{Haohan Lin}\par}
+    {\fontsize{23pt}{23pt}\selectfont\color{primaryColor}\textbf{Haohan Lin}\par}
 
     % \vspace{0.12cm}
 
     % {\small\color{grayText}Software Development \textperiodcentered\ Test Automation \textperiodcentered\ Linux / Shell Operations\par}
 
-    \vspace{0.10cm}
+    \vspace{0.36cm}
 
     {\small\color{textColor}%
         \mbox{\faMapMarker*\hspace{0.1cm}Suzhou, China}%
@@ -402,7 +489,7 @@
         \contactsep
         \mbox{\hrefWithoutArrow{tel:+86 130 2388 0536}{\faPhone*\hspace{0.1cm}+86 130 2388 0536}}%
 
-        \vspace{0.06cm}
+        \vspace{0.14cm}
 
         \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/haohan-lin}{\faLinkedinIn\hspace{0.1cm}Haohan Lin}}%
         \contactsep
@@ -410,7 +497,7 @@
     }
 \end{minipage}%
 \hfill
-\begin{minipage}[t]{3.0cm}
+\begin{minipage}[t]{2.75cm}
     \vspace{0pt}\raggedleft
     \photo[\cvPhotoSize]{profile.png}
 \end{minipage}
@@ -418,6 +505,101 @@
 \vspace{-0.14cm}
 \noindent{\color{ruleColor}\hrule height 0.4pt}
 \vspace{0.06cm}
+
+\vspace{-0.2cm}
+% --- Work Experience ---
+\section{Work Experience}
+
+    \begin{twocolentry}{
+        Suzhou, China
+
+    Jul 2026 – Present
+    }
+        \cvtitle{\textbf{Software Development Intern}, Bosch Automotive Products (Suzhou) Co., Ltd.}
+        \textbf{Project Overview:} Bosch VM-department internal desktop tool \mbox{AutoVariant}\allowbreak\mbox{GeneratedTool} (Python + PyQt, packaged as a PyInstaller EXE), serving OEMs including BYD / Geely / Chery / Zeeker\par
+    \end{twocolentry}
+
+    % \vspace{-0.18cm}
+
+    \begin{onecolentry}
+        \textbf{Functional Details:} Python implements the requirements-engineering pipeline: AS configuration files $\to$ generated FS specification reports; rules generate variant code; outputs are uploaded to IBM DOORS and bound with requirements traceability links. IBM DOORS is widely used inside Bosch for requirements and change management, but slow system startup and inefficient manual entry made automation necessary.\par
+        \textbf{My Responsibilities:} full-stack independent owner of this product line: developing differentiated configurations for different customers, handling colleague feedback, and iterating the tool from v1.4 to v1.4.4
+        \begin{highlights}
+            \item \textbf{IBM DOORS API:} configured remote API calls for upload, refresh, query, and requirements-traceability link binding without manually opening the IBM DOORS client
+            \item \textbf{Workflow Agent Application:} integrated OpenCode CLI and Bosch-internal Kimi K2.5 into the existing PyQt GUI and reusable scripts, orchestrating generation, validation, prefilling, DOORS upload, and link creation through Tool Calling / Skill workflows
+            \item \textbf{AI Skill / Tool Orchestration:} wrapped existing scripts as callable Skills / Tools; schema fields are prefilled by rules while the model completes unstructured text; users preview and confirm before execution, with offline fallback when no model is available
+            \item \textbf{Data Analysis Tooling:} supported contribution management for different automotive customers by processing multi-product Excel sources with pandas / openpyxl, combining native formulas and pivot tables for real-time refresh; lightweight HTML pages support fine-grained result extraction
+            \item \textbf{Cross-country Collaboration:} coordinated with Bosch colleagues in Japan / Vietnam to co-develop a JP-version desktop tool with equivalent functionality, reusing multi-customer variant rules and DOORS automation workflows
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.14cm}
+
+    \begin{twocolentry}{
+        Shanghai, China
+
+    Jan 2026 – Mar 2026
+    }
+        \cvtitle{\textbf{Test Development Intern}, Shanghai Videt Information Technology Co., Ltd.}
+        \begin{highlights}
+            \item Used Python (Playwright / Selenium) for analysis-platform data collection and cleaning; joined Excel metadata and wrote the results into the company database to support test-data preparation
+            \item Used Docker to containerize and reproduce test environments, aligning local and server dependencies and improving environment consistency
+        \end{highlights}
+    \end{twocolentry}
+
+\vspace{-0.2cm}
+% --- Projects ---
+\section{Projects}
+
+    \begin{twocolentry}{
+        Suzhou, China
+
+    Mar 2026 – Aug 2026
+
+        SURF 2026
+
+        {\footnotesize Summer Undergraduate}
+
+        {\footnotesize Research Fellowship}
+
+        {\footnotesize in XJTLU campus}
+
+        Dr.\ Teng Ma
+
+    \vspace{0.45em}
+
+    \href{https://github.com/Guameezia/SURF-2026-uniNavi}{github.com/ \\ Guameezia/SURF-2026-uniNavi}
+    }
+        \cvtitle{\textbf{Campus Indoor Navigation and Place-based Social Platform (UniNavi)}}
+        \begin{highlights}
+            \item \textbf{Frontend and full-layer navigation:} built a 0F--5F indoor-navigation Web app with React / TypeScript / Vite / Zustand, migrated the uni-app mini program to React / SVG, and supported POI selection, SVG-overlay route rendering, viewport pan / zoom, and minimap synchronization
+            \item \textbf{Cross-floor pathfinding:} field-collected a 500+ node / 600+ edge weighted indoor graph; used min-heap Dijkstra for same-floor shortest paths, split cross-floor routes into three segments (start to portal / vertical-shaft transfer / shaft to destination), identified elevator and stair shafts by connected components, and output RouteSegment objects
+            \item \textbf{Map data and place-based social features:} orthogonalized the road network (no diagonal corridor edges, Manhattan distance into rooms, waypoints snapped to corridors), parsed draw.io exported SVGs to generate room / corridor / shaft regions and map them to the viewBox; notes are auto-tagged by keyword rules, clustered by room, and promoted into topics by popularity
+        \end{highlights}
+    \end{twocolentry}
+
+    \vspace{0.06cm}
+
+    \begin{twocolentry}{
+        Suzhou, China
+
+    Jun 2025 – Aug 2025
+
+        SURF 2025
+
+        \mbox{Dr.\ Chi-Ru Yang}
+
+    \vspace{0.25em}
+
+    \href{https://github.com/Guameezia/2025_SURF_Poster}{github.com/Guameezia/ \\ 2025\_SURF\_Poster}
+    }
+        \cvtitle{\textbf{Comparative Study and Optimization of SVD and CNN in Image Processing}}
+        \begin{highlights}
+            \item \textbf{Experimental pipeline:} built a medical-image processing pipeline in Python (NumPy / PyTorch / Matplotlib), covering preprocessing, training, and evaluation for lesion analysis (tumours, skin lesions)
+            \item \textbf{Quantitative comparison:} compared truncated SVD low-rank approximation with CNN image reconstruction across compression ratio, PSNR, and runtime efficiency, and produced reproducible scripts
+            \item \textbf{Research poster:} served as chief LaTeX editor for the research poster, unified the final layout, collaborated through Git, and received university research certification
+        \end{highlights}
+    \end{twocolentry}
 
 \vspace{-0.2cm}
 % --- Education ---
@@ -428,12 +610,12 @@
 
         Sept 2024 – Jul 2028
     }
-        \textbf{Information and Computing Science} \\ Xi'an Jiaotong-Liverpool University (XJTLU)
+        \cvtitle{\textbf{Information and Computing Science} \\ Xi'an Jiaotong-Liverpool University (XJTLU)}
         \begin{highlights}
-            \item \textbf{Core coursework:} OS, Computer Systems, Networks, Databases, Data Structures, Algorithms, Software Engineering, Java, AI, ML, Multi-Agent Systems, HCI, Graphics, Discrete Math/Stats, Linear Algebra, Multivariable Calculus
+            \item \textbf{Core coursework:} Data Structures, Operating Systems, Computer Systems, Computer Networks, Databases, Algorithms, Software Engineering, Java Programming, Artificial Intelligence, Machine Learning, AI Application Design, Multi-Agent Systems, Human-Computer Interaction, Computer Graphics, Discrete Mathematics and Statistics, Linear Algebra, Multivariable Calculus
             \item \textbf{Stage 1 average:} 74\%
-            \item \textbf{Stage 2 average (Semester 1):} 78\% (top 20\% in programme)
-            \item[] {\small\color{grayText}\textit{UK-style marks (0--100); 70+ = First Class (top band; near full marks).}}
+            \item \textbf{Stage 2 average:} 80\% (top 20\% in programme)
+            \item[] {\small\color{grayText}\textit{UK-style marks (0--100); 70+ = First Class (highest classification).}}
             % \item \textbf{Current main skill course grades:} \\
             % CPT001 Professional Skills in Computer Science \hfill 82\% \\
             % MTH007 Linear Algebra \hfill 94\% \\
@@ -443,61 +625,6 @@
     \end{threecolentry}
 
 \vspace{-0.2cm}
-% --- Projects ---
-\section{Projects}
-
-    \begin{twocolentry}{
-        Suzhou, China
-
-    Jun 2025 – Aug 2025
-
-    \vspace{0.45em}
-
-    \href{https://github.com/Guameezia/2025_SURF_Poster}{github.com/Guameezia/ \\ 2025\_SURF\_Poster}
-    }
-        \textbf{Comparative Study and Optimization of SVD and CNN in Image Processing}
-        \begin{highlights}
-            \item Supervised by Dr.\ Chi-Ru Yang; built an image-processing and ML pipeline in \textbf{Python} (NumPy / PyTorch / Matplotlib), covering pre-processing, training, and evaluation
-            \item Designed comparison experiments between SVD low-rank approximation and CNN reconstruction %, quantifying compression ratio, reconstruction error (PSNR), and runtime efficiency with reproducible scripts and results
-            \item Used Git for version control and team collaboration; served as chief LaTeX editor of the research poster %; responsible for the final layout; project received a university-issued research certificate
-        \end{highlights}
-    \end{twocolentry}
-
-    \vspace{0.06cm}
-
-    \begin{twocolentry}{
-        Suzhou, China
-
-    Mar 2026 – Present
-    }
-        \textbf{AI-Agent-Driven Integrated Campus Indoor Navigation and Real-Time Social Platform (UniNavi)}
-        \begin{highlights}
-            \item Supervised by Dr.\ Teng Ma (ongoing); responsible for indoor-navigation and AI-agent modules from design to implementation
-            \item Building multi-floor indoor path planning and an embodied AI-agent avatar; developed an \textbf{LLM} + \textbf{RAG} dialogue engine with Function Calling and ReAct reasoning for campus guidance and multi-task orchestration; managing Git-based iteration
-            % \item Front-end/back-end split architecture (React front end + Python back end), containerized with \textbf{Docker} and deployed to a \textbf{Linux} server for consistent dev and runtime environments
-            % \item Managing team collaboration and version iteration with Git while continuously improving features and stability
-        \end{highlights}
-    \end{twocolentry}
-
-% --- Work Experience ---
-\vspace{-0.2cm}
-\section{Work Experience}
-
-    \begin{twocolentry}{
-        Shanghai, China
-
-    Jan 2026 – Mar 2026
-    }
-        \textbf{Test Development Intern}, Shanghai Videt Information Technology Co., Ltd.
-        \begin{highlights}
-            \item Wrote \textbf{Shell/Bash} scripts for automated testing and operations support %(data extraction, log cleaning, batch validation) and scheduled them with \textbf{cron}, cutting recurring manual tasks from $\sim$30 min to under 5 min per run
-            % \item Troubleshot service issues on \textbf{Linux} servers: inspected system/application logs, traced abnormal processes and port usage, reproduced and regression-verified defects to help keep test environments and systems stable
-            \item Used \textbf{Docker} to spin up and reproduce test environments, aligning dependency versions across local and server setups %and reducing setup/repro time
-            % \item Ran functional, performance, and API testing; authored and maintained 60+ test cases and filed/tracked 40+ defects with reproducible bug reports
-            \item Wrote \textbf{Python} (Playwright) crawler scripts to batch-scrape analysis-platform data, clean it, and integrate it with Excel metadata and the company's system database for test-data preparation and functional verification
-        \end{highlights}
-    \end{twocolentry}
-
 % --- Skills ---
 \section{Skills}
 
@@ -508,7 +635,7 @@
 \vspace{0.06cm}
 
     \begin{onecolentry}
-        \textbf{Operations \& Systems:} Linux (Ubuntu), Shell / Bash scripting, log troubleshooting and process/port diagnosis, Docker containerization, Git version control
+        \textbf{Operations \& Systems:} Linux, Shell / Bash scripting, log troubleshooting and process / port diagnosis, Docker containerization, Git version control
     \end{onecolentry}
 
 \vspace{0.06cm}
@@ -520,14 +647,7 @@
 \vspace{0.06cm}
 
     \begin{onecolentry}
-        \textbf{Tools \& Platforms:} IDEs such as Cursor / VS Code / Xcode, proficient with AI-assisted coding (Cursor, Codex, Claude Code) to boost development efficiency; React front-end development; macOS / Linux dual platform; basic Microsoft Office
-    \end{onecolentry}
-
-% --- Summary ---
-\section{Summary}
-
-    \begin{onecolentry}
-        Undergraduate \textbf{computer science} student (Information and Computing Science, XJTLU) with a solid programming foundation and hands-on engineering experience. Comfortable with \textbf{Shell/Bash}, log troubleshooting, \textbf{Docker} on \textbf{Linux}, test automation, and quality assurance; experience spans SURF research, UniNavi, and a test-development internship.
+        \textbf{Tools \& Platforms:} Cursor / VS Code / Xcode; IBM DOORS; AI-assisted coding (Cursor, Codex, Claude Code); workflow-agent development (OpenCode, Kimi K2.5, tool calling / skill orchestration, human-in-the-loop); React / Vite / Zustand / SVG; macOS
     \end{onecolentry}
 
 \endgroup
